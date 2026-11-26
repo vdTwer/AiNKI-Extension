@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Add to AiNKI</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="popup.css">
+  <script type="module" src="popup.js"></script>
+</head>
+<body>
+  <section id="connect" hidden>
+    <p id="connect-why">Connect the extension to your AiNKI account first.</p>
+    <button id="open-options" class="primary" type="button">Connect</button>
+  </section>
+
+  <form id="card" hidden>
+    <label>Deck <select id="deck" required></select></label>
+    <label>Front <textarea id="front" rows="2" placeholder="The question you'll be asked"></textarea></label>
+    <div id="image" hidden>
+      <img id="image-preview" alt="The picture for this card">
+      <div class="side">
+        On the
+        <label><input type="radio" name="side" value="front"> front</label>
+        <label><input type="radio" name="side" value="back"> back</label>
+        <button id="image-remove" type="button" class="link">Remove</button>
+      </div>
+    </div>
+    <label>Back <textarea id="back" rows="5"></textarea></label>
+    <p id="source" class="muted" hidden></p>
+    <div class="actions">
+      <button id="add" type="submit" class="primary">Add card</button>
+      <span class="muted">or Ctrl+Enter</span>
+    </div>
+    <p id="status" role="status" aria-live="polite"></p>
+  </form>
+</body>
+</html>
