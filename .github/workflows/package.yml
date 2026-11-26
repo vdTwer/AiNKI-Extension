@@ -9,12 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Zip what Firefox loads
-        run: |
-          version=$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')
-          echo "VERSION=$version" >> "$GITHUB_ENV"
-          zip -r -X "ainki-$version.zip" manifest.json icons src
+      - name: Read the version
+        run: echo "VERSION=$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')" >> "$GITHUB_ENV"
+      # GitHub zips every artifact itself, so upload the files, not a zip:
+      # the download is then the extension zip, with manifest.json at its root.
       - uses: actions/upload-artifact@v4
         with:
           name: ainki-${{ env.VERSION }}
-          path: ainki-${{ env.VERSION }}.zip
+          path: |
+            manifest.json
+            icons/
+            src/
+          if-no-files-found: error
