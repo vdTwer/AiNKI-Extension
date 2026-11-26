@@ -1,0 +1,20 @@
+name: package
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Zip what Firefox loads
+        run: |
+          version=$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          zip -r -X "ainki-$version.zip" manifest.json icons src
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ainki-${{ env.VERSION }}
+          path: ainki-${{ env.VERSION }}.zip
