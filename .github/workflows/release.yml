@@ -1,0 +1,56 @@
+name: release
+# Each new version in manifest.json on main becomes a signed release:
+# AMO signs it (unlisted), and the GitHub release holds ainki.xpi and the
+# updates.json that installed copies check for updates.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: release
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Is this version released yet?
+        id: check
+        run: |
+          version=$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if gh release view "v$version" > /dev/null 2>&1; then
+            echo "v$version is already released. Bump the version in manifest.json to release."
+            echo "new=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "new=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Unit tests
+        if: steps.check.outputs.new == 'true'
+        run: node --test test/*.test.js
+      - name: Sign on addons.mozilla.org
+        if: steps.check.outputs.new == 'true'
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: |
+          npx --yes web-ext@8.3.0 sign --channel=unlisted --source-dir=. --artifacts-dir=signed \
+            --ignore-files "test/**" ".github/**" "README.md" "LICENSE"
+          mv signed/*.xpi ainki.xpi
+      - name: Publish the release
+        if: steps.check.outputs.new == 'true'
+        run: |
+          v=${{ steps.check.outputs.version }}
+          id=$(python3 -c 'import json; print(json.load(open("manifest.json"))["browser_specific_settings"]["gecko"]["id"])')
+          python3 - "$id" "$v" > updates.json <<'PY'
+          import json, sys
+          id, v = sys.argv[1:]
+          link = f"https://github.com/${{ github.repository }}/releases/download/v{v}/ainki.xpi"
+          print(json.dumps({"addons": {id: {"updates": [{"version": v, "update_link": link}]}}}, indent=2))
+          PY
+          gh release create "v$v" ainki.xpi updates.json --title "AiNKI for Firefox $v" --generate-notes
