@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AiNKI",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Turn selected text and images on any page into AiNKI flashcards.",
   "browser_specific_settings": {
     "gecko": {
@@ -11,7 +11,8 @@
         "required": [
           "none"
         ]
-      }
+      },
+      "update_url": "https://github.com/vdTwer/AiNKI-Extension/releases/latest/download/updates.json"
     }
   },
   "icons": {

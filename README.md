@@ -35,3 +35,13 @@ Run the tests:
 ```sh
 node --test test/*.test.js
 ```
+
+## Releasing
+
+Raise `version` in `manifest.json` and merge to main. The `release` workflow then signs the extension on addons.mozilla.org (unlisted) and publishes a GitHub release with `ainki.xpi` and `updates.json`. Installed copies find the new version through `update_url`, and AiNKI's *Get the extension* button always links to the latest release:
+
+```
+https://github.com/vdTwer/AiNKI-Extension/releases/latest/download/ainki.xpi
+```
+
+One-time setup: create an API key at addons.mozilla.org → Developer Hub → Tools → Manage API Keys, and add it to the repository secrets as `AMO_JWT_ISSUER` and `AMO_JWT_SECRET`.
