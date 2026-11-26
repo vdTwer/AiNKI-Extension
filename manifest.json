@@ -4,38 +4,21 @@
   "version": "0.1.0",
   "description": "Turn selected text and images on any page into AiNKI flashcards.",
   "browser_specific_settings": {
-    "gecko": {
-      "id": "add-cards@ainki",
-      "strict_min_version": "128.0"
-    }
+    "gecko": { "id": "add-cards@ainki", "strict_min_version": "128.0" }
   },
-  "icons": {
-    "48": "icons/icon.svg",
-    "96": "icons/icon.svg"
-  },
-  "permissions": [
-    "storage",
-    "identity",
-    "scripting",
-    "activeTab"
-  ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
+  "icons": { "48": "icons/icon.svg", "96": "icons/icon.svg" },
+  "permissions": ["storage", "menus", "identity", "scripting", "activeTab"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "scripts": ["src/background.js"], "type": "module" },
   "action": {
     "default_title": "Add to AiNKI",
     "default_popup": "src/popup.html",
     "default_icon": "icons/icon.svg"
   },
-  "options_ui": {
-    "page": "src/options.html",
-    "open_in_tab": true
-  },
+  "options_ui": { "page": "src/options.html", "open_in_tab": true },
   "commands": {
     "_execute_action": {
-      "suggested_key": {
-        "default": "Alt+Shift+A"
-      },
+      "suggested_key": { "default": "Alt+Shift+A" },
       "description": "Add the selection to AiNKI"
     }
   }
