@@ -166,6 +166,10 @@ function wire() {
       save();
     }
   });
+  $("settings").addEventListener("click", () => {
+    browser.runtime.openOptionsPage();
+    window.close();
+  });
   $("open-options").addEventListener("click", () => {
     browser.runtime.openOptionsPage();
     window.close();

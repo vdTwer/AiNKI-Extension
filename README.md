@@ -4,7 +4,7 @@ Turn what you read into flashcards. Select text or right-click an image on any p
 
 ## Features
 
-- **Connect once.** The extension signs in the way Claude does: OAuth with PKCE, and you allow it on AiNKI's own page. It shows up under Settings → Agent access, where you can disconnect it.
+- **Connect once.** The extension signs in the way Claude does: OAuth with PKCE, and you allow it on AiNKI's own page. It shows up under Settings → Connected apps, where you can disconnect it.
 - **Selection to card.** Select text and press <kbd>Alt+Shift+A</kbd>, click the toolbar button, or right-click → *Add selection to AiNKI*. The selection fills the back; you write the front.
 - **Image to card.** Right-click an image → *Add image to AiNKI*, and put it on the front or the back.
 - **Never saved by accident.** A card is created only when you press *Add card* or <kbd>Ctrl+Enter</kbd>. A plain Enter is a new line.
