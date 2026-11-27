@@ -1,73 +1,73 @@
+/* The extension wears the app's look: white, ink and one memory blue;
+   Geist for the interface, Geist Mono for labels in caps, Newsreader for
+   card text; one ink button, hairlines instead of boxes. */
+@font-face { font-family: Geist; src: url("fonts/geist.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/geist-mono.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: Newsreader; src: url("fonts/newsreader.woff2") format("woff2"); font-weight: 200 800; }
+
 :root {
   color-scheme: light dark;
-  --ink: #1d1d1f;
-  --muted: #6e6e73;
-  --line: #d2d2d7;
-  --paper: #fff;
-  --orchid: #a8336d;
-  --terra: #b4462b;
-  --ok: #2e7d4f;
-  font: 14px/1.4 system-ui, sans-serif;
+  --ink: light-dark(#0c0d10, #ececee);
+  --muted: light-dark(#6b6e76, #9a9da5);
+  --faint: light-dark(#878a91, #80838b);
+  --line: light-dark(#e7e7e4, #26282e);
+  --edge: light-dark(#dcdcd8, #34363d);
+  --bg: light-dark(#fff, #0e0f12);
+  --accent: light-dark(#2b4bd6, #7b93ff);
+  --danger: light-dark(#b42318, #f08a80);
+  --mono: "Geist Mono", ui-monospace, monospace;
+  --serif: Newsreader, Georgia, serif;
+  font: 14px/1.5 Geist, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #f2f2f2;
-    --muted: #a1a1a6;
-    --line: #3a3a3c;
-    --paper: #1c1c1e;
-    --orchid: #e07aab;
-    --terra: #f08a6e;
-    --ok: #6fcf97;
-  }
-}
-
-body {
-  margin: 0;
-  padding: 16px;
-  color: var(--ink);
-  background: var(--paper);
-}
+body { margin: 0; color: var(--ink); background: var(--bg); }
+h1 { display: flex; flex-direction: column; gap: 16px; margin: 0 0 24px; font-size: 32px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; }
+.logo .dot { fill: var(--accent); }
+a { color: var(--accent); }
+kbd { font-family: var(--mono); font-size: 12px; padding: 1px 5px; border: 1px solid var(--line); border-radius: 4px; }
 
 label {
   display: block;
-  margin-block-end: 12px;
-  font-weight: 600;
+  margin-block-end: 16px;
 
   & select, & textarea, & input:not([type="radio"]) {
     display: block;
     box-sizing: border-box;
     width: 100%;
-    margin-block-start: 4px;
-    padding: 6px 8px;
+    height: 44px;
+    margin-block-start: 6px;
+    padding: 0 12px;
     font: inherit;
-    font-weight: 400;
     color: inherit;
-    background: var(--paper);
-    border: 1px solid var(--line);
+    background: var(--bg);
+    border: 1px solid var(--edge);
     border-radius: 6px;
+    &:focus { border-color: var(--accent); outline: 0; }
   }
-
-  & textarea { resize: vertical; }
 }
 
-:focus-visible { outline: 2px solid var(--orchid); outline-offset: 1px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 button {
-  padding: 6px 14px;
+  height: 40px;
+  padding: 0 18px;
   font: inherit;
-  color: var(--orchid);
-  background: none;
-  border: 1px solid var(--orchid);
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--edge);
   border-radius: 6px;
   cursor: pointer;
 
-  &.primary { color: #fff; background: var(--orchid); }
+  &:hover { border-color: var(--ink); }
+  &.primary { color: var(--bg); background: var(--ink); border-color: var(--ink); font-weight: 500; }
+  &.primary:hover { background: color-mix(in oklab, var(--ink) 88%, var(--bg)); }
   &:disabled { opacity: 0.5; cursor: default; }
 }
 
-.muted { color: var(--muted); font-size: 12px; }
-.actions { display: flex; align-items: center; gap: 12px; }
-.error { color: var(--terra); }
-.ok { color: var(--ok); }
+button.link { height: auto; padding: 0; color: var(--muted); background: none; border: 0; &:hover { color: var(--ink); } }
+.muted { color: var(--muted); font-size: 13px; }
+.actions { display: flex; align-items: center; gap: 14px; }
+.error { color: var(--danger); }
+.ok { color: var(--accent); }
+#status { min-height: 1.5em; margin-block-end: 0; }
 [hidden] { display: none !important; }
